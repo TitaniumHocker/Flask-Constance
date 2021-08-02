@@ -25,7 +25,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        poetry install --no-interaction
+        poetry install --no-interaction --dev
     - name: Tests with coverage
       run: |
         poetry run python -m pytest --cov
