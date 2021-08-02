@@ -11,7 +11,8 @@ from .signals import constance_setup
 class Config:
     """Config object to handle data access
 
-    :param backend: Backend to use."""
+    :param backend: Backend to use.
+    """
 
     def __init__(self, backend: Backend):
         super().__setattr__("_backend", backend)
@@ -37,7 +38,8 @@ class Constance:
     """Constance extension
 
     :param app: Flask application.
-    :param backend: Backend instance to use."""
+    :param backend: Backend instance to use.
+    """
 
     def __init__(
         self, app: t.Optional[Flask] = None, backend: t.Optional[Backend] = None
@@ -54,7 +56,8 @@ class Constance:
 
         :param app: Flask application.
         :raises ValueError: If Constance extension
-            was initialized multiple times."""
+            was initialized multiple times.
+        """
         self.app = app
         if not hasattr(self.app, "extensions"):
             self.app.extensions = {CONSTANCE_EXTENSION: self}

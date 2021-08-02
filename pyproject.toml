@@ -55,7 +55,7 @@ extended_default_ignore=[] # https://github.com/flakehell/flakehell/issues/10
 [tool.flakehell.plugins]
 pyflakes = ["+*"]
 pycodestyle = ["+*", "-W503"]
-flake8-docstrings = ["+*", "-D400", "-D107", "-D204", "-D105"]
+flake8-docstrings = ["+*", "-D400", "-D107", "-D204", "-D105", "-D100"]
 flake8-isort = ["+*"]
 flake8-black = ["+*"]
 

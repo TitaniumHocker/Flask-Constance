@@ -14,19 +14,30 @@ class RedisBackend(Backend):
 
     :param URL: Connection URL.
     :param prefix: Prefix to use.
-        By default - `constance_settings`."""
+        By default - `constance_settings`.
+    """
 
     def __init__(self, URL: str, prefix: str = "constance_settings"):
         self.redis = redis.from_url(URL)
         self.prefix = prefix
 
     def get(self, key: str) -> t.Any:
+        """Get setting value.
+
+        :param key: Name of the setting.
+        """
         value = self.redis.get(f"{self.prefix}:{key}")
         if not value:
             return None
         return pickle.loads(value)
 
     def set(self, key: str, value: t.Any) -> t.Any:
+        """Set setting value
+
+        :param key: Name of the setting.
+        :param value: Value of the setting.
+        :returns: Old value of the setting.
+        """
         old = self.get(key)
         self.redis.set(f"{self.prefix}:{key}", pickle.dumps(value))
         return old
