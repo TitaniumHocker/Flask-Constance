@@ -12,6 +12,7 @@ The format is based on `Keep a Changelog <https://keepachangelog.com/en/1.0.0>`_
 ==================
 
 First release with main functions of the package.
+
 Implemented backends:
-- Flask-SQLAlchemy
-- Redis
+* Flask-SQLAlchemy
+* Redis
