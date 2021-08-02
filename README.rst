@@ -20,10 +20,10 @@ Documentation
 Documentation of this project is available at `readthedocs <https://simple-sftp.rtfd.io>`_.
 
 
-.. |tests| image:: https://github.com/TitaniumHocker/Flask-Constance/workflows/Tests/badge.svg
-
 .. |codecov| image:: https://codecov.io/gh/TitaniumHocker/Flask-Constance/branch/master/graph/badge.svg?token=DBOQKM56MY
-   :target: https://codecov.io/gh/TitaniumHocker/Flask-Constance
+   :target: https://codecov.io/gh/TitaniumHocker/Flask-Constance 
+
+.. |tests| image:: https://github.com/TitaniumHocker/Flask-Constance/workflows/Tests/badge.svg
 
 .. |lint| image:: https://github.com/TitaniumHocker/Flask-Constance/workflows/Lint/badge.svg
 
