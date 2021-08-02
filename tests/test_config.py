@@ -1,14 +1,10 @@
-import random
 from string import ascii_letters
 
 import pytest
 
+from conftest import genstr
 from flask_constance import config
 from flask_constance.const import CONSTANCE_SETTINGS
-
-
-def genstr(n: int = 8):
-    return "".join(random.choice(ascii_letters) for _ in range(n))
 
 
 @pytest.mark.parametrize(

@@ -12,13 +12,18 @@ from .core import Backend
 class RedisBackend(Backend):
     """Redis backend
 
-    :param URL: Connection URL.
+    :param URL: Connection URL or Redis client instance.
     :param prefix: Prefix to use.
         By default - `constance_settings`.
     """
 
-    def __init__(self, URL: str, prefix: str = "constance_settings"):
-        self.redis = redis.from_url(URL)
+    def __init__(
+        self, connection: t.Union[str, redis.Redis], prefix: str = "constance_settings"
+    ):
+        if isinstance(connection, str):
+            self.redis = redis.from_url(connection)
+        else:
+            self.redis = connection
         self.prefix = prefix
 
     def get(self, key: str) -> t.Any:

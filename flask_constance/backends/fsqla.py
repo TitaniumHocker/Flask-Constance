@@ -11,7 +11,7 @@ class SettingMixin:
 
     __tablename__ = "constance_settings"
     id = sa.Column(sa.Integer, primary_key=True)
-    key = sa.Column(sa.String(256), uniqie=True, nullable=False, index=True)
+    key = sa.Column(sa.String(256), unique=True, nullable=False, index=True)
     value = sa.Column(sa.PickleType, nullable=True)
 
     def __repr__(self) -> str:
@@ -54,8 +54,10 @@ class FlaskSQLAlchemyBackend(Backend):
             old = None
             setting = self.model(key=key, value=pickle.dumps(value))
         else:
-            old = setting.value
+            old = pickle.loads(setting.value)
             setting.value = pickle.dumps(value)
-        with self.session.begin():
-            self.session.add(setting)
+
+        self.session.add(setting)
+        self.session.commit()
+
         return old
