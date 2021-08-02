@@ -41,9 +41,7 @@ class Constance:
     :param backend: Backend instance to use.
     """
 
-    def __init__(
-        self, app: t.Optional[Flask] = None, backend: t.Optional[Backend] = None
-    ):
+    def __init__(self, app: t.Optional[Flask] = None, backend: t.Optional[Backend] = None):
         self.config = Config(backend if backend is not None else MemoryBackend())
         self.app: t.Optional[Flask]
         if app is not None:
@@ -64,8 +62,7 @@ class Constance:
         else:
             if CONSTANCE_EXTENSION in self.app.extensions:
                 raise ValueError(
-                    f"{CONSTANCE_EXTENSION} extension name already used. "
-                    f"Multiple inits?"
+                    f"{CONSTANCE_EXTENSION} extension name already used. " f"Multiple inits?"
                 )
             self.app.extensions[CONSTANCE_EXTENSION] = self
         self.app.config.setdefault(CONSTANCE_SETTINGS, {})

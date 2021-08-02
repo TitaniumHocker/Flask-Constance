@@ -8,9 +8,7 @@ class Backend:
 
     def get(self, name: str) -> t.Any:
         """Interface for getting settings"""
-        raise NotImplementedError(
-            f"Constance backend({self.__class__}) getter wasn't implemented"
-        )
+        raise NotImplementedError(f"Constance backend({self.__class__}) getter wasn't implemented")
 
     def _get(self, key: str) -> t.Any:
         """Get setting value.
@@ -22,9 +20,7 @@ class Backend:
 
     def set(self, key: str, value: t.Any) -> t.Any:
         """Interface for setting settings"""
-        raise NotImplementedError(
-            f"Constance backend({self.__class__}) setter wasn't implemented"
-        )
+        raise NotImplementedError(f"Constance backend({self.__class__}) setter wasn't implemented")
 
     def _set(self, key: str, value: t.Any):
         """Set setting value

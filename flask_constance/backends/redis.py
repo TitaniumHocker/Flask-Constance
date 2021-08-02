@@ -17,9 +17,7 @@ class RedisBackend(Backend):
         By default - `constance_settings`.
     """
 
-    def __init__(
-        self, connection: t.Union[str, redis.Redis], prefix: str = "constance_settings"
-    ):
+    def __init__(self, connection: t.Union[str, redis.Redis], prefix: str = "constance_settings"):
         if isinstance(connection, str):
             self.redis = redis.from_url(connection)
         else:
