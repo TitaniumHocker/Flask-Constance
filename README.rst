@@ -3,6 +3,7 @@ Flask-Constance
 ###############
 
 |tests|
+|codecov|
 |lint|
 |mypy|
 |black|
@@ -20,6 +21,9 @@ Documentation of this project is available at `readthedocs <https://simple-sftp.
 
 
 .. |tests| image:: https://github.com/TitaniumHocker/Flask-Constance/workflows/Tests/badge.svg
+
+.. |codecov| image:: https://codecov.io/gh/TitaniumHocker/Flask-Constance/branch/master/graph/badge.svg?token=DBOQKM56MY
+   :target: https://codecov.io/gh/TitaniumHocker/Flask-Constance
 
 .. |lint| image:: https://github.com/TitaniumHocker/Flask-Constance/workflows/Lint/badge.svg
 
