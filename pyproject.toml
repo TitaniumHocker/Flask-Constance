@@ -4,6 +4,20 @@ version = "0.1.0"
 description = "Dynamic settings for Flask applications"
 authors = ["Ivan Fedorov <inbox@titaniumhocker.ru>"]
 license = "MIT"
+homepage = "https://github.com/TitaniumHocker/Flask-Constance"
+repository = "https://github.com/TitaniumHocker/Flask-Constance"
+documentation = "https://flask-constance.rtfd.io"
+keywords = ["flask", "extension"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Environment :: Web Environment",
+  "Framework :: Flask",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3 :: Only",
+  "Topic :: Software Development :: Libraries"
+]
 
 [tool.poetry.dependencies]
 python = "^3.6"
@@ -22,6 +36,7 @@ flake8-black = "^0.2.3"
 black = "^21.7b0"
 isort = "^5.9.3"
 flake8-isort = "^4.0.0"
+pytest = "^6.2.4"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
