@@ -19,6 +19,9 @@ classifiers = [
   "Topic :: Software Development :: Libraries"
 ]
 
+[tool.poetry.urls]
+"Bug Tracker" = "https://github.com/TitaniumHocker/Flask-Constance/issues"
+
 [tool.poetry.dependencies]
 python = "^3.6"
 Flask = "^2.0.1"
@@ -38,6 +41,43 @@ isort = "^5.9.3"
 flake8-isort = "^4.0.0"
 pytest = "^6.2.4"
 types-redis = "^3.5.4"
+flakehell = "^0.9.0"
+flake8-docstrings = "^1.6.0"
+coverage = {extras = ["toml"], version = "^5.5"}
+pytest-cov = "^2.12.1"
+
+[tool.flakehell]
+format = "colored"
+max_line_length = 100
+
+[tool.flakehell.plugins]
+pyflakes = ["+*"]
+pycodestyle = ["+*", "-W503"]
+flake8-docstrings = ["+*", "-D400", "-D107", "-D204", "-D105"]
+flake8-isort = ["+*"]
+flake8-black = ["+*"]
+
+[tool.flakehell.exceptions."tests/*"]
+flake8-docstrings = ["-*"]
+pycodestyle = ["-F401"]
+
+[tool.isort]
+profile = "hug"
+src_paths = ["flask_constance", "tests"]
+
+[tool.pytest.ini_options]
+testpaths = [
+    "tests"
+]
+
+[tool.coverage.run]
+source = [
+    "flask_constance"
+]
+
+[tool.coverage.report]
+fail_under = 50
+show_missing = true
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
