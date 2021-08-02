@@ -25,6 +25,10 @@ jobs:
     - name: Install dependencies
       run: |
         poetry install --no-interaction
+    - name: Start Redis
+      uses: supercharge/redis-github-action@1.2.0
+      with:
+        redis-version: 5
     - name: Test with pytest
       run: |
         poetry run python -m pytest
