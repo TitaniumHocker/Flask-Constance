@@ -17,17 +17,10 @@ def genstr(n: int = 8):
         genstr(),
         genstr(),
         genstr(),
-    )
+    ),
 )
 @pytest.mark.parametrize(
-    "value",
-    (
-        123,
-        False,
-        "shit",
-        {"a": "b"},
-        ascii_letters.split()
-    )
+    "value", (123, False, "shit", {"a": "b"}, ascii_letters.split())
 )
 def test_getting_setting(app, key, value):
     app.config[CONSTANCE_SETTINGS][key] = 1
@@ -41,17 +34,10 @@ def test_getting_setting(app, key, value):
         genstr(),
         genstr(),
         genstr(),
-    )
+    ),
 )
 @pytest.mark.parametrize(
-    "value",
-    (
-        123,
-        False,
-        "shit",
-        {"a": "b"},
-        ascii_letters.split()
-    )
+    "value", (123, False, "shit", {"a": "b"}, ascii_letters.split())
 )
 def test_defaults(app, key, value):
     app.config[CONSTANCE_SETTINGS][key] = value

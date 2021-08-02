@@ -1,6 +1,5 @@
-import typing as t
 import pickle
-import json
+import typing as t
 
 import sqlalchemy as sa
 
@@ -25,6 +24,7 @@ class FlaskSQLAlchemyBackend(Backend):
 
     :param model: Model which describes settings.
     :param session: Database session."""
+
     def __init__(self, model: sa.orm.DeclarativeMeta, session: sa.orm.Session):
         self.model = model
         self.session = session

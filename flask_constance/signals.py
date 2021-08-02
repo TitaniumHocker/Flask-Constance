@@ -1,6 +1,5 @@
 from flask.signals import Namespace
 
-
 signals = Namespace()
 
 constance_setup = signals.signal("constance-setup")

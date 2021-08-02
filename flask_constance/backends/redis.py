@@ -1,7 +1,10 @@
-import typing as t
 import pickle
+import typing as t
 
-import redis
+try:
+    import redis
+except ImportError as exc:
+    raise ImportError("To use Redis backen redis-py need to be installed.") from exc
 
 from .core import Backend
 
@@ -12,6 +15,7 @@ class RedisBackend(Backend):
     :param URL: Connection URL.
     :param prefix: Prefix to use.
         By default - `constance_settings`."""
+
     def __init__(self, URL: str, prefix: str = "constance_settings"):
         self.redis = redis.from_url(URL)
         self.prefix = prefix

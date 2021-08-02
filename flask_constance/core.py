@@ -12,6 +12,7 @@ class Config:
     """Config object to handle data access
 
     :param backend: Backend to use."""
+
     def __init__(self, backend: Backend):
         super().__setattr__("_backend", backend)
 
@@ -37,14 +38,12 @@ class Constance:
 
     :param app: Flask application.
     :param backend: Backend instance to use."""
+
     def __init__(
-        self,
-        app: t.Optional[Flask] = None,
-        backend: t.Optional[Backend] = None
+        self, app: t.Optional[Flask] = None, backend: t.Optional[Backend] = None
     ):
-        self.config = Config(
-            backend if backend is not None else MemoryBackend()
-        )
+        self.config = Config(backend if backend is not None else MemoryBackend())
+        self.app: t.Optional[Flask]
         if app is not None:
             self.init_app(app)
         else:
