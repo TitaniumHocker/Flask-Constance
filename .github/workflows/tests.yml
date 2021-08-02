@@ -24,7 +24,7 @@ jobs:
         poetry-version: "1.1.4"
     - name: Install dependencies
       run: |
-        poetry install --no-interaction
+        poetry install --no-interaction --dev
     - name: Start Redis
       uses: supercharge/redis-github-action@1.2.0
       with:
