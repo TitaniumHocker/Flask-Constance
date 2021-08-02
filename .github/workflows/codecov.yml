@@ -1,5 +1,8 @@
 name: Codecov
 
+env:
+  CODECOV_TOKEN: 'b0643665-3115-40b0-a470-4f3739fe675e'
+
 on:
   push:
     branches: [ master ]
