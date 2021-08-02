@@ -1,2 +1,0 @@
-# flask-constance
-Flask-Constance
