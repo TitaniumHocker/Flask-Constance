@@ -21,6 +21,7 @@ This package is available on PyPI. So, it can be installed via `pip`, `pipenv`, 
 This command will install package to your user environment:
 
 .. code:: bash
+    
    python3 -m pip install --user flask-constance
 
 
@@ -29,7 +30,7 @@ Quickstart
 
 For the quickstart visit `this <>`_ section of documentation.
 
-Also, some usage examples can be found in `examples <examples/>` directory.
+Also, some usage examples can be found in `examples <examples/>`_ directory.
 
 
 Documentation
