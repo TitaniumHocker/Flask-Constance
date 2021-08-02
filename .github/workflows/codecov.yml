@@ -26,6 +26,9 @@ jobs:
     - name: Install dependencies
       run: |
         poetry install --no-interaction
+    - name: Install Redis
+      run: |
+        sudo apt-get install redis --yes
     - name: Tests with coverage
       run: |
         poetry run python -m pytest --cov
