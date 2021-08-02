@@ -254,7 +254,7 @@ name = "flask-sqlalchemy"
 version = "2.5.1"
 description = "Adds SQLAlchemy support to your Flask application."
 category = "main"
-optional = true
+optional = false
 python-versions = ">= 2.7, != 3.0.*, != 3.1.*, != 3.2.*, != 3.3.*"
 
 [package.dependencies]
@@ -282,7 +282,7 @@ name = "greenlet"
 version = "1.1.0"
 description = "Lightweight in-process concurrent programming"
 category = "main"
-optional = true
+optional = false
 python-versions = ">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*"
 
 [package.extras]
@@ -671,7 +671,7 @@ name = "sqlalchemy"
 version = "1.4.22"
 description = "Database Abstraction Library"
 category = "main"
-optional = true
+optional = false
 python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*,>=2.7"
 
 [package.dependencies]
@@ -810,7 +810,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytes
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.6.2"
-content-hash = "052b17641040aef46bbfe222a226fb8950f4522609e032025a3b889cf4700518"
+content-hash = "33f7757ca1e55b606aebc13e2a6c2fe42ac8d42889ddce1ea180343c3f573d07"
 
 [metadata.files]
 appdirs = [
