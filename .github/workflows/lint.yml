@@ -1,0 +1,26 @@
+name: Lint
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: "3.8"
+    - name: Install poetry
+      uses: abatilo/actions-poetry@v2.0.0
+      with:
+        poetry-version: "1.1.4"
+    - name: Install dependencies
+      run: |
+        poetry install --no-interaction
+    - name: Lint with flake8
+      run: poetry run flakehell lint flask_constance/
