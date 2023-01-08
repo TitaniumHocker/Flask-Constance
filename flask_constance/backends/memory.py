@@ -1,32 +1,31 @@
 import typing as t
-from threading import Lock
 
+from werkzeug.local import Local
+
+from . import exc
 from .core import Backend
 
 
 class MemoryBackend(Backend):
-    """In-memory backend for testing purposes"""
+    """In-memory backend for testing purposes."""
 
     def __init__(self):
-        self._lock: Lock = Lock()
-        self._db: t.Dict[str, t.Any] = {}
+        self._db = Local()
 
-    def get(self, key: str) -> t.Any:
+    def get(self, name: str) -> t.Any:
         """Get setting value.
 
         :param key: Name of the setting.
         """
-        with self._lock:
-            return self._db.get(key)
+        try:
+            return getattr(self._db, name)
+        except AttributeError as err:
+            raise exc.SettingNotFoundInBackendError(name, self) from err
 
-    def set(self, key: str, value: t.Any) -> t.Any:
+    def set(self, name: str, value: t.Any):
         """Set setting value
 
         :param key: Name of the setting.
         :param value: Value of the setting.
-        :returns: Old value of the setting.
         """
-        with self._lock:
-            old = self._db.get(key)
-            self._db[key] = value
-        return old
+        setattr(self._db, name, value)

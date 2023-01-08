@@ -3,10 +3,11 @@ import typing as t
 
 try:
     import redis
-except ImportError as exc:
-    raise ImportError("To use Redis backen redis-py need to be installed.") from exc
+except ImportError as err:
+    raise ImportError("To use Redis backen redis-py need to be installed.") from err
 
 from .core import Backend
+from . import exc
 
 
 class RedisBackend(Backend):
@@ -24,14 +25,14 @@ class RedisBackend(Backend):
             self.redis = connection
         self.prefix = prefix
 
-    def get(self, key: str) -> t.Any:
+    def get(self, name: str) -> t.Any:
         """Get setting value.
 
         :param key: Name of the setting.
         """
-        value = self.redis.get(f"{self.prefix}:{key}")
+        value = self.redis.get(f"{self.prefix}:{name}")
         if not value:
-            return None
+            raise exc.SettingNotFoundInBackendError(name, self)
         return pickle.loads(value)
 
     def set(self, key: str, value: t.Any) -> t.Any:
@@ -39,8 +40,5 @@ class RedisBackend(Backend):
 
         :param key: Name of the setting.
         :param value: Value of the setting.
-        :returns: Old value of the setting.
         """
-        old = self.get(key)
         self.redis.set(f"{self.prefix}:{key}", pickle.dumps(value))
-        return old
