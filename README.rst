@@ -3,7 +3,6 @@ Flask-Constance
 ###############
 
 |tests|
-|codecov|
 |lint|
 |mypy|
 |black|
