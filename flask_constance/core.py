@@ -4,8 +4,8 @@ from flask import Flask
 
 from . import signals
 from .backends import Backend, BackendCache
-from .storage import Storage
 from .backends.memory import MemoryBackend
+from .storage import Storage
 
 
 class Constance:

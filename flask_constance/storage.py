@@ -1,8 +1,8 @@
 import typing as t
+from contextlib import contextmanager
 from functools import partial
 
 from flask import current_app, g
-from contextlib import contextmanager
 
 from .backends import Backend, BackendCache
 from .signals import constance_get, constance_set
