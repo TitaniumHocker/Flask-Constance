@@ -29,7 +29,7 @@ Flask-SQLAlchemy = {version = "^2.5.1", extras = ["fsqla"]}
 sqlalchemy = {version = "<2", extras = ["fsqla"]}
 
 [tool.poetry.group.dev.dependencies]
-mypy = "^0.910"
+mypy = "<=1.1.1"
 pytest = "^6.2.4"
 coverage = {extras = ["toml"], version = "^5.5"}
 pytest-cov = "^2.12.1"
@@ -43,32 +43,36 @@ types-flask-sqlalchemy = "^2.5.9.3"
 flake8-bugbear = "<=23.3.12"
 
 [tool.black]
-line_length = 100
+line_length = 88
 
-[tool.flakehell]
-format = "colored"
-max_line_length = 100
-extended_default_ignore=[] # https://github.com/flakehell/flakehell/issues/10
+[tool.flakeheaven]
+format = "grouped"
+max_line_length = 88
+show_source = true
 
-[tool.flakehell.plugins]
+[tool.flakeheaven.plugins]
 pyflakes = ["+*"]
 pycodestyle = ["+*", "-W503"]
 flake8-docstrings = ["+*", "-D400", "-D107", "-D204", "-D105", "-D100"]
 flake8-isort = ["+*"]
 flake8-black = ["+*"]
 
-[tool.flakehell.exceptions."tests/*"]
+[tool.flakeheaven.exceptions."tests/*"]
 flake8-docstrings = ["-*"]
 pycodestyle = ["-F401"]
 
 [tool.isort]
-profile = "hug"
-src_paths = ["flask_constance", "tests"]
+profile = "black"
+src_paths = ["flask_constance"]
+line_length = 88
 
 [tool.pytest.ini_options]
 testpaths = [
     "tests"
 ]
+addopts = """
+  --cov=flask_constance
+"""
 
 [tool.coverage.run]
 source = [
@@ -78,6 +82,17 @@ source = [
 [tool.coverage.report]
 fail_under = 80
 show_missing = true
+
+[tool.mypy]
+files="flask_constance"
+strict_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+disallow_any_generics = false
+check_untyped_defs = true
+no_implicit_optional = true
+disallow_untyped_defs = true
+show_error_codes = true
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

@@ -7,7 +7,7 @@ class Backend(t.Protocol):
     def get(self, name: str) -> t.Any:
         ...
 
-    def set(self, name: str, value: t.Any):
+    def set(self, name: str, value: t.Any) -> None:
         ...
 
 
@@ -17,8 +17,8 @@ class BackendCache(t.Protocol):
     def get(self, name: str) -> t.Any:
         ...
 
-    def set(self, name: str, value: t.Any):
+    def set(self, name: str, value: t.Any) -> None:
         ...
 
-    def invalidate(self, name: str):
+    def invalidate(self, name: str) -> None:
         ...

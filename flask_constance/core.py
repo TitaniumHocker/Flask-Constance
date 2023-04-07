@@ -27,7 +27,7 @@ class Constance:
         if app is not None:
             self.init_app(app)
 
-    def init_app(self, app: Flask):
+    def init_app(self, app: Flask) -> None:
         """Initialize extension with Flask application.
 
         :param app: Flask application.

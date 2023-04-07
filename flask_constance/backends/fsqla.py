@@ -49,7 +49,7 @@ class FlaskSQLAlchemyBackend(Backend):
             return instance.value
         raise KeyError(name)
 
-    def set(self, name: str, value: t.Any):
+    def set(self, name: str, value: t.Any) -> None:
         """Set setting value
 
         :param key: Name of the setting.

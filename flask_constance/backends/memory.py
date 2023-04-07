@@ -8,7 +8,7 @@ from .base import Backend
 class MemoryBackend(Backend):
     """In-memory backend for testing purposes."""
 
-    def __init__(self):
+    def __init__(self):  # type: ignore[no-untyped-def]
         self._db = Local()
 
     def get(self, name: str) -> t.Any:
@@ -21,7 +21,7 @@ class MemoryBackend(Backend):
         except AttributeError as err:
             raise KeyError(name) from err
 
-    def set(self, name: str, value: t.Any):
+    def set(self, name: str, value: t.Any) -> None:
         """Set setting value
 
         :param key: Name of the setting.

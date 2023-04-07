@@ -1,3 +1,5 @@
+import typing as t
+
 try:
     from blinker import Namespace  # type: ignore
 
@@ -15,7 +17,7 @@ except ImportError:
         def __repr__(self) -> str:
             return f"<MockedSignal {self.name}>"
 
-        def send(self, *args, **kwargs):
+        def send(self, *args, **kwargs):  #  type: ignore[no-untyped-def]
             pass
 
     constance_setup = MockedSignal("constance-setup")

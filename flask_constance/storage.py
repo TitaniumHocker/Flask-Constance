@@ -87,7 +87,7 @@ class Storage:
             self._ctx_cache[name] = value
             return value
 
-    def __setattr__(self, name: str, value: t.Any):
+    def __setattr__(self, name: str, value: t.Any) -> None:
         if name in self.__slots__:
             return super().__setattr__(name, value)
         if name not in self._payload:
