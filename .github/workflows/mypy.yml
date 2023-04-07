@@ -16,7 +16,7 @@ jobs:
       with:
         python-version: "3.8"
     - name: Install poetry
-      uses: abatilo/actions-poetry@v2.0.0
+      uses: abatilo/actions-poetry@v2.1.6
     - name: Install dependencies
       run: |
         poetry install --no-interaction
