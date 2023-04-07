@@ -1,4 +1,4 @@
-name: Lint
+name: lint
 
 on:
   push:
@@ -23,4 +23,4 @@ jobs:
       run: |
         poetry install --no-interaction
     - name: Lint with flake8
-      run: poetry run flakehell lint flask_constance/
+      run: poetry run flakeheaven lint flask_constance

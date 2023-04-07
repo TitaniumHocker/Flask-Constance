@@ -16,6 +16,7 @@ constance = Constance(app, FlaskSQLAlchemyBackend(ConstanceSettings, db.session)
 
 app.config["SERCET_KEY"] = "super-secret"
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///:memory:"
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["CONSTANCE_PAYLOAD"] = {"foo": "bar"}
 
 
@@ -24,12 +25,11 @@ def index():
     return {key: getattr(settings, key) for key in dir(settings)}
 
 
-@app.route("/", methods=["POST"])
-def update():
+@app.route("/<name>", methods=["POST"])
+def update(name: str):
     if request.json is None:
         return {}, 400
-    for key, value in request.json.items():
-        setattr(settings, key, value)
+    setattr(settings, name, request.json)
     return {key: getattr(settings, key) for key in dir(settings)}
 
 

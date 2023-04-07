@@ -1,5 +1,5 @@
 try:
-    from blinker import Namespace
+    from blinker import Namespace  # type: ignore
 
     signals = Namespace()
 
@@ -11,10 +11,10 @@ except ImportError:
     class MockedSignal:
         def __init__(self, name: str):
             self.name = name
-        
+
         def __repr__(self) -> str:
             return f"<MockedSignal {self.name}>"
-        
+
         def send(self, *args, **kwargs):
             pass
 

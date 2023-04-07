@@ -3,7 +3,6 @@ from typing import cast
 from flask import current_app
 from werkzeug.local import LocalProxy
 
-from .exc import ConstanceNotInitializedError
 from .storage import Storage
 
 
@@ -16,7 +15,7 @@ def _get_settings_storage() -> Storage:
     try:
         return cast(Storage, current_app.extensions["constance"].storage)
     except KeyError as err:
-        raise ConstanceNotInitializedError() from err
+        raise RuntimeError("Flask-Constance wasn't initialized.") from err
 
 
 #: Global variable to access Flask-Constance settings storage.

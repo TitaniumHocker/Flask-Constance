@@ -2,9 +2,10 @@ import typing as t
 
 from flask import Flask
 
-from . import exc, signals
-from .backends import Backend
+from . import signals
+from .backends import Backend, BackendCache
 from .storage import Storage
+from .backends.memory import MemoryBackend
 
 
 class Constance:
@@ -18,9 +19,11 @@ class Constance:
         self,
         app: t.Optional[Flask] = None,
         backend: t.Optional[Backend] = None,
-        cache: t.Optional[Backend] = None,
+        cache: t.Optional[BackendCache] = None,
     ):
-        self.storage: Storage = Storage(backend, cache)
+        self.storage: Storage = (
+            Storage(backend, cache) if backend else Storage(MemoryBackend(), cache)
+        )
         if app is not None:
             self.init_app(app)
 
@@ -33,10 +36,10 @@ class Constance:
         :raises ConstanceInvalidSettingName: If invalid settings name was provided.
         """
         if "constance" in app.extensions:
-            raise exc.ConstanceAlreadyInitializedError()
+            raise RuntimeError("Flask-Constance already initialized.")
         app.extensions["constance"] = self
         app.config.setdefault("CONSTANCE_PAYLOAD", {})
         for key in app.config["CONSTANCE_PAYLOAD"].keys():
-            if key.startswith("_"):
-                raise exc.ConstanceInvalidSettingName(key)
+            if key.startswith("_") or key == "mut":
+                raise ValueError(f"Invalid setting name: {key}")
         signals.constance_setup.send(self, app=app)

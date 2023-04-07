@@ -1,4 +1,3 @@
-import pickle
 import typing as t
 
 try:
@@ -10,8 +9,7 @@ except ImportError as err:
         "Flask-SQLAlchemy extension must be installed to use it as a backend for Flask-Constance"
     ) from err
 
-from . import exc
-from .core import Backend
+from .base import Backend
 
 
 class SettingMixin:
@@ -21,7 +19,7 @@ class SettingMixin:
     __tablename__ = "constance_settings"
     id = sa.Column(sa.Integer, primary_key=True)
     name = sa.Column(sa.String(256), unique=True, nullable=False, index=True)
-    value = sa.Column(sa.PickleType, nullable=True)
+    value = sa.Column(sa.JSON, nullable=True)
 
     def __repr__(self) -> str:
         return f"<Setting {self.name}>"
@@ -46,9 +44,10 @@ class FlaskSQLAlchemyBackend(Backend):
 
         :param key: Name of the setting.
         """
-        if instance := self.model.query.filter_by(name=name).first():  # type: ignore
+        instance = self.model.query.filter_by(name=name).first()  # type: ignore
+        if instance is not None:
             return instance.value
-        raise exc.SettingNotFoundInBackendError(name, self)
+        raise KeyError(name)
 
     def set(self, name: str, value: t.Any):
         """Set setting value

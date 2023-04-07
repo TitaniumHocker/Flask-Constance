@@ -2,8 +2,7 @@ import typing as t
 
 from werkzeug.local import Local
 
-from . import exc
-from .core import Backend
+from .base import Backend
 
 
 class MemoryBackend(Backend):
@@ -20,7 +19,7 @@ class MemoryBackend(Backend):
         try:
             return getattr(self._db, name)
         except AttributeError as err:
-            raise exc.SettingNotFoundInBackendError(name, self) from err
+            raise KeyError(name) from err
 
     def set(self, name: str, value: t.Any):
         """Set setting value
