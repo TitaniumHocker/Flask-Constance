@@ -62,6 +62,9 @@ flake8-docstrings = ["-*"]
 pycodestyle = ["-F401"]
 
 [tool.flakeheaven.exceptions."flask_constance/backends/base.py"]
+flake8-docstrings = ["-D102"]
+
+[tool.flakeheaven.exceptions."flask_constance/signals.py"]
 flake8-docstrings = ["-D102", "-D101"]
 
 [tool.isort]
