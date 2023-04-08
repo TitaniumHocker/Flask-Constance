@@ -1,10 +1,15 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 
 from flask_constance import Constance, settings
 from flask_constance.backends.fsqla import FlaskSQLAlchemyBackend, SettingMixin
 
 app = Flask(__name__)
+app.config["SERCET_KEY"] = "super-secret"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///:memory:"
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.config["CONSTANCE_PAYLOAD"] = {"foo": "bar"}
+
 db = SQLAlchemy(app)
 
 
@@ -14,15 +19,15 @@ class ConstanceSettings(db.Model, SettingMixin):  # type: ignore
 
 constance = Constance(app, FlaskSQLAlchemyBackend(ConstanceSettings, db.session))
 
-app.config["SERCET_KEY"] = "super-secret"
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///:memory:"
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-app.config["CONSTANCE_PAYLOAD"] = {"foo": "bar"}
-
 
 @app.route("/")
 def index():
-    return {key: getattr(settings, key) for key in dir(settings)}
+    """This view will return current settings as a JSON."""
+    if settings.foo == "bar":
+        settings.foo = "not bar"
+    elif settings.foo == "not bar":
+        settings.foo = "bar"
+    return jsonify({key: getattr(settings, key) for key in dir(settings)})
 
 
 @app.route("/<name>", methods=["POST"])

@@ -2,6 +2,8 @@
 Flask-Constance
 ###############
 
+|pythonver|
+|license|
 |tests|
 |lint|
 |mypy|
@@ -46,3 +48,9 @@ Documentation of this project is available at `readthedocs <https://flask-consta
 
 .. |black| image:: https://img.shields.io/badge/code%20style-black-000000.svg
     :target: https://github.com/psf/black
+
+.. |pythonver| image:: https://img.shields.io/pypi/pyversions/flask-constance
+   :alt: PyPI - Python Version
+
+.. |license| image:: https://img.shields.io/pypi/l/flask-constance
+   :alt: PyPI - License
