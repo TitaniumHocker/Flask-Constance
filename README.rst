@@ -4,9 +4,11 @@ Flask-Constance
 
 |pythonver|
 |license|
+
 |tests|
 |lint|
 |mypy|
+
 |black|
 
 Dynamic settings for Flask applications.
