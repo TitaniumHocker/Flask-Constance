@@ -15,7 +15,6 @@ Dynamic settings for Flask applications.
 
 This extension is inspired by `Django-Constance <https://github.com/jazzband/django-constance>`_.
 
-
 Installation
 ============
 
@@ -26,14 +25,6 @@ This command will install package to your user environment:
 .. code:: bash
     
    python3 -m pip install --user flask-constance
-
-
-Quickstart
-==========
-
-For the quickstart visit `this <>`_ section of documentation.
-
-Also, some usage examples can be found in `examples <examples/>`_ directory.
 
 
 Documentation
