@@ -14,6 +14,7 @@ import os
 import sys
 from datetime import datetime
 import tomlkit
+from pallets_sphinx_themes import ProjectLink
 
 sys.path.insert(0, os.path.abspath("."))
 
@@ -92,10 +93,22 @@ html_theme_options = {"index_sidebar_logo": False}
 html_static_path = ["_static"]
 
 
-html_sidebars = {
-    "index": ["project.html", "localtoc.html", "searchbox.html", "ethicalads.html"],
-    "librupost.*": ["relations.html", "searchbox.html", "ethicalads.html"],
-    "librupost": ["relations.html", "searchbox.html", "ethicalads.html"],
-    "**": ["localtoc.html", "relations.html", "searchbox.html", "ethicalads.html"],
+html_context = {
+    "project_links": [
+        ProjectLink("PyPI releases", "https://pypi.org/project/Flask-Constance/"),
+        ProjectLink(
+            "Source Code", "https://github.com/TitaniumHocker/Flask-Constance/"
+        ),
+        ProjectLink(
+            "Issue Tracker",
+            "https://github.com/TitaniumHocker/Flask-Constance/issues/",
+        ),
+    ]
 }
-singlehtml_sidebars = {"index": ["project.html", "localtoc.html", "ethicalads.html"]}
+
+# Custom sidebar templates, maps document names to template names.
+html_sidebars = {
+    "index": ["project.html", "localtoc.html", "searchbox.html"],
+    "**": ["localtoc.html", "relations.html", "searchbox.html"],
+}
+singlehtml_sidebars = {"index": ["project.html", "localtoc.html"]}

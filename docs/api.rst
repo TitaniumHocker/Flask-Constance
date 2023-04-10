@@ -97,3 +97,16 @@ fiels for your model.
    :members:
    :undoc-members:
    :show-inheritance:
+
+.. module:: flask_constance.view
+
+RESTlike view
+-------------
+
+View implementing RESTlike interface for managing
+Flask-Constance dynamic settings.
+
+.. autoclass:: ConstanceView
+   :members:
+   :undoc-members:
+   :show-inheritance:
