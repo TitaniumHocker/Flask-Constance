@@ -20,11 +20,11 @@ Installation
 
 This package is available on PyPI. So, it can be installed via `pip`, `pipenv`, `poetry`, etc.
 
-This command will install package to your user environment:
+This command will install package from PyPI:
 
 .. code:: bash
     
-   python3 -m pip install --user flask-constance
+   python3 -m pip install flask-constance
 
 
 Documentation
