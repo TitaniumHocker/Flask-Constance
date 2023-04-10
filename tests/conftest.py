@@ -7,9 +7,9 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
 from flask_constance import Constance
-from flask_constance.storage import Storage
 from flask_constance.backends.fsqla import FlaskSQLAlchemyBackend, SettingMixin
 from flask_constance.backends.memory import MemoryBackend
+from flask_constance.storage import Storage
 
 
 def genstr(n: int = 8):
@@ -31,6 +31,7 @@ def default_payload():
 def app():
     app = Flask(__name__)
     app.testing = True
+    app.secret_key = genstr()
     yield app
 
 

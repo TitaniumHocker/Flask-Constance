@@ -1,24 +1,9 @@
 import typing as t
-from contextlib import contextmanager
-from functools import partial
 
 from flask import current_app, g
 
 from .backends import Backend, BackendCache
 from .signals import constance_get, constance_set
-
-
-@contextmanager  # type: ignore
-def _mut_context_manager(storage: "Storage", name: str) -> t.ContextManager[t.Any]:  # type: ignore
-    """Context manager for updating muttable values in storage.
-
-    :param storage: Storage.
-    :param name: Name of the setting.
-    :yields: Context manager returning value of setting.
-    """
-    value = getattr(storage, name)
-    yield value
-    setattr(storage, name, value)
 
 
 class Storage:
@@ -31,17 +16,11 @@ class Storage:
     """
 
     # NOTE: This hack prevents setting undeclared constance settings.
-    __slots__ = ["_backend", "_cache", "_initialized"]
+    __slots__ = ["_backend", "_cache"]
 
     def __init__(self, backend: Backend, cache: t.Optional[BackendCache] = None):
         self._backend: Backend = backend
         self._cache: t.Optional[BackendCache] = cache
-        self._initialized = True
-
-    @property
-    def mut(self) -> t.Callable[[str], t.ContextManager[t.Any]]:
-        """Context manager to partial updating muttable settings."""
-        return partial(_mut_context_manager, self)
 
     @property
     def _payload(self) -> t.Dict[str, t.Any]:
@@ -55,15 +34,28 @@ class Storage:
             g._constance_runtime_cache = {}
         return g._constance_runtime_cache
 
+    @property
+    def _mut_log(self) -> t.Dict[str, t.Any]:
+        """Mutations log with name of the setting and it's value."""
+        if not hasattr(g, "_constance_mut_watchdog"):
+            g._constance_mut_watchdog = {}
+        return g._constance_mut_watchdog
+
     def __dir__(self) -> t.Iterable[str]:
         return tuple(self._payload.keys())
 
     def __getattr__(self, name: str) -> t.Any:
         if name not in self._payload:
-            return super().__getattribute__(name)
+            raise AttributeError(
+                f"'{self.__class__.__name__}' object has no attribute '{name}'"
+            )
         constance_get.send(self, name=name)
+
+        # First of all - try to get value from runtime cache.
         if name in self._ctx_cache:
             return self._ctx_cache[name]
+
+        # Then try to find value in backend cache.
         if self._cache is not None:
             try:
                 value = self._cache.get(name)
@@ -72,6 +64,8 @@ class Storage:
             else:
                 self._ctx_cache[name] = value
                 return value
+
+        # Finally go to the actual backend.
         try:
             value = self._backend.get(name)
         except KeyError:
@@ -80,11 +74,15 @@ class Storage:
             if self._cache is not None:
                 self._cahce.set(name, value)
             self._ctx_cache[name] = value
+            if isinstance(value, (dict, list, set)):
+                self._mut_log[name] = value
             return value
         else:
             if self._cache is not None:
                 self._cache.set(name, value)
             self._ctx_cache[name] = value
+            if isinstance(value, (dict, list, set)):
+                self._mut_log[name] = value
             return value
 
     def __setattr__(self, name: str, value: t.Any) -> None:
@@ -97,3 +95,10 @@ class Storage:
         if self._cache is not None:
             self._cache.invalidate(name)
         self._ctx_cache[name] = value
+
+    def __delattr__(self, name: str) -> None:
+        if name in self.__slots__:
+            return super().__delattr__(name)
+        if name not in self._payload:
+            return super().__delattr__(name)
+        return self.__setattr__(name, self._payload[name])

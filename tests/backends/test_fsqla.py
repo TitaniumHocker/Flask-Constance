@@ -1,6 +1,7 @@
 import typing as t
 
 import pytest
+
 from flask_constance.backends import FlaskSQLAlchemyBackend
 
 
@@ -18,4 +19,7 @@ def test_setget(
         assert with_fsqla_backend.get(key) == value
         with_fsqla_backend.set(key, new_value)
         assert with_fsqla_backend.get(key) == new_value
-        assert with_fsqla_backend.model.query.filter_by(name=key).first().value == new_value
+        assert (
+            with_fsqla_backend.model.query.filter_by(name=key).first().value
+            == new_value
+        )

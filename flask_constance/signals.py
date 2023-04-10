@@ -15,7 +15,7 @@ except ImportError:
         def __repr__(self) -> str:
             return f"<MockedSignal {self.name}>"
 
-        def send(self, *args, **kwargs):  # type: ignore[no-untyped-def]
+        def send(self, *args, **kwargs):
             pass
 
     constance_setup = MockedSignal("constance-setup")
