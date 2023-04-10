@@ -1,0 +1,51 @@
+{% extends 'admin/master.html' %}
+{% block body %}
+  <div class="table-responsive">
+    <table class="table table-striped table-bordered table-hover model-list">
+        <thead>
+            <tr>
+              <th class="column-header col-3">
+                {{ admin_view.column_headers[0] }}
+              </th>
+              <th class="column-header col-5">
+                {{ admin_view.column_headers[1] }}
+              </th>
+              <th class="column-header col-3">
+                {{ admin_view.column_headers[2] }}
+              </th>
+              <th class="column-header col-1"></th>
+            </tr>
+        </thead>
+        {% for name, value in settings.items() %}
+          <tr>
+            <form method="POST">
+                {{ form.csrf_token }}
+              <td class="col-3">
+                {{ form.name(value=name) }}
+                <b>{{ name }}</b>
+              </td>
+              <td class="col-5">
+                {% set f = form.value.process_data(value) %}
+                {{ form.value(class="form-control") }}
+              </td>
+              <td class="col-3">
+                {{ defaults[name] }}
+              </td>
+              <td class="col-1">
+                {{ form.submit(class="btn btn-primary btn-sm btn-block", value=admin_view.submit_button_label) }}
+                {{ form.reset(class="btn btn-danger btn-sm btn-block mt-2", value=admin_view.reset_button_label) }}
+              </td>
+            </form>
+          </tr>
+        {% else %}
+        <tr>
+            <td colspan="999">
+                <div class="text-center">
+                    {{ admin_view.get_empty_list_message() }}
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+  </div>
+{% endblock %}
