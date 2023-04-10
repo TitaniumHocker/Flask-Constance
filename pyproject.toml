@@ -4,7 +4,6 @@ version = "0.1.0"
 description = "Dynamic settings for Flask applications"
 authors = ["Ivan Fedorov <inbox@titaniumhocker.ru>"]
 license = "MIT"
-homepage = "https://github.com/TitaniumHocker/Flask-Constance"
 repository = "https://github.com/TitaniumHocker/Flask-Constance"
 documentation = "https://flask-constance.rtfd.io"
 keywords = ["flask", "extension"]
@@ -23,10 +22,13 @@ classifiers = [
 "Bug Tracker" = "https://github.com/TitaniumHocker/Flask-Constance/issues"
 
 [tool.poetry.dependencies]
-python = ">=3.6.8,<4.0"
+python = ">=3.8,<4.0"
 Flask = "^2.0.1"
 Flask-SQLAlchemy = {version = "^2.5.1", extras = ["fsqla"]}
-sqlalchemy = {version = "<2", extras = ["fsqla"]}
+SQLAlchemy = {version = ">1.4,<2.0", extras = ["fsqla"]}
+Flask-Admin = {version = "^1.6.1", extras = ["admin"]}
+Flask-WTF = {version = "^1.1.1", extras = ["admin"]}
+blinker = {version = "^1.6", extras = ["signals"]}
 
 [tool.poetry.group.dev.dependencies]
 mypy = "<=1.1.1"
@@ -98,11 +100,18 @@ files="flask_constance"
 strict_optional = true
 warn_redundant_casts = true
 warn_unused_ignores = true
-disallow_any_generics = false
 check_untyped_defs = true
 no_implicit_optional = true
-disallow_untyped_defs = true
 show_error_codes = true
+
+[[tool.mypy.overrides]]
+module = [
+  "flask_admin.*",
+  "flask_wtf.*",
+  "wtforms.*",
+]
+ignore_missing_imports = true
+
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
