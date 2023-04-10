@@ -2,13 +2,13 @@ import typing as t
 
 from werkzeug.local import Local
 
-from .base import Backend
+from .base import Backend, BackendCache
 
 
 class MemoryBackend(Backend):
     """In-memory backend for testing purposes."""
 
-    def __init__(self):  # type: ignore[no-untyped-def]
+    def __init__(self):
         self._db = Local()
 
     def get(self, name: str) -> t.Any:
@@ -28,3 +28,15 @@ class MemoryBackend(Backend):
         :param value: Value of the setting.
         """
         setattr(self._db, name, value)
+
+
+class MemoryBackendCache(MemoryBackend, BackendCache):
+    """In-memory backend cache for testing purposes."""
+
+    def invalidate(self, name: str) -> None:
+        """Invalidate setting value in cache.
+
+        :param name: Setting name.
+        """
+        if hasattr(self._db, name):
+            delattr(self._db, name)
