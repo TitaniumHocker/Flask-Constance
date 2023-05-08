@@ -1,0 +1,15 @@
+version: 2
+formats:
+    - pdf
+    - htmlzip
+
+sphinx:
+  configuration: docs/conf.py
+  fail_on_warning: true
+  builder: html
+
+python:
+  install:
+    - requirements: docs/req.txt
+    - method: pip
+      path: .
