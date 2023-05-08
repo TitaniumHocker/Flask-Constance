@@ -60,9 +60,13 @@ extensions = [
     "sphinx.ext.viewcode",
     "sphinx.ext.autosummary",
     "sphinx.ext.napoleon",
+    "sphinx.ext.autosectionlabel",
     "sphinx_autodoc_typehints",
     "pallets_sphinx_themes",
 ]
+
+# Make sure the target is unique
+autosectionlabel_prefix_document = True
 
 # Set `typing.TYPE_CHECKING` to `True`:
 # https://pypi.org/project/sphinx-autodoc-typehints/

@@ -161,20 +161,173 @@ Here is same example with using this mixin:
 Caching
 -------
 
+By default Flask-Constance will cache settings that are accessed
+in Flask's ``g`` object. This object recreates on every request,
+so this caching mechanism is very limited. It can reduce number
+of access operations to the backend during request, but nothing 
+more.
+
+In the future there are plans to implement some external backend
+cache support. For now it can be implemented by hand with
+:class:`~flask_constance.backends.base.BackendCache` base class
+and passed to :class:`~flask_constance.Constance`.
+
+See :ref:`guide:Implementing your own backend or cache` section for
+additional information.
+
 RESTlike view
 -------------
+
+If you need to manage settings via HTTP API - there is simple
+implementation of RESTlike view :class:`~flask_constance.view.ConstanceView`.
+To enable it just set ``CONSTANCE_VIEW_BASE_URL`` config value.
+
+For example if config value set to ``/api/constance`` then this
+operations can be done with HTTP API:
+
+- ``GET`` on ``/api/constance`` to get all settings values.
+- ``GET`` on ``/api/constance/<name>`` to get specific config value by it's name.
+- ``PUT`` on ``/api/constance/<name>`` to update specific config value by it's name.
+- ``DELETE`` on ``/api/constance/<name>`` to reset specific config value by it's name.
+
+``PUT`` request accepts JSON as a payload. ``GET`` requests returns JSON 
+as response payload. If setting not found by it's name - 404 status will
+be returned.
+
+Here is an example how you can connect this API:
+
+.. code:: python
+
+    from flask import Flask
+    from flask_constance import Constance
+
+    app = Flask(__name__)
+    app.config["CONSTANCE_PAYLOAD"] = {"foo": "bar"}
+    app.config["CONSTANCE_VIEW_BASE_URL"] = "/api/constance"
+
+    if __name__ == "__main__":
+        app.run(debug=True)
+
+And then use it:
+
+.. code:: bash
+
+    $ curl -X GET http://localhost:5000/api/constance
+    {
+    "foo": "bar"
+    }
+    $ curl -X PUT http://localhost:5000/api/constance/foo \
+        -H "Content-Type: application/json" \
+        -d '"new-data"'
+    {}
+    $ curl -X GET http://localhost:5000/api/constance
+    {
+    "foo": "new-data"
+    }
+    $ curl -X DELETE http://localhost:5000/api/constance/foo
+    {}
+    $ curl -X GET http://localhost:5000/api/constance
+    {
+    "foo": "bar"
+    }
 
 CLI
 ---
 
+Settings can be accessed from simple CLI interface.
+
+- ``flask constance get`` command for reading values.
+- ``flask constance set`` for updating.
+- and ``flask constance del`` for deleting(resetting) values.
+
 Signals
 -------
+
+Flask-Constance supports Flask's signalling feature via `blinker`
+package. Extension sends signalls in these cases:
+
+- When extension was initialized: :obj:`~flask_constance.signals.constance_setup`.
+- When setting value was accessed: :obj:`~flask_constance.signals.constance_get`.
+- When setting value was updated: :obj:`~flask_constance.signals.constance_set`.
 
 Implementing your own backend or cache
 --------------------------------------
 
+If you want to implement your own backend or backend cache there is
+two base classes - :class:`~flask_constance.backends.base.Backend`
+and :class:`~flask_constance.backends.base.BackendCache`.
+
+In general backend must implement to methods:
+
+ - ``set`` to set setting value, that takes name and value as arguments.
+ - ``get`` to get setting value by it's name.
+
+For backend cache signature is the same, except that in addition
+``invalidate`` method must be implemented. This method deletes value
+from the cache by it's name.
+
+Here is an example of a backend cache that uses memcached(pymemcache):
+
+.. code:: python
+
+    import typing as t
+    import os
+    import json
+    from pymemcache.client.base import Client
+    from flask_constance.backends.base import BackendCache
+
+    class MemcachedBackendCache(BackendCache):
+        def __init__(self, addr: str):
+            self.client = Client(addr)
+        
+        def get(self, name: str) -> t.Any:
+            return json.loads(self.client.get(name))
+        
+        def set(self, name: str, value: t.Any):
+            self.client.set(name, json.dumps(value))
+        
+        def invalidate(name: str):
+            self.client.delete(name)
+
 Configuration
 -------------
 
+As usual for Flask extensions, Flask-Constance configuration
+variables stored in Flask.config object with ``CONSTANCE_`` prefix.
+Here is configuration variables of Flask-Constance extension:
+
++-------------------------+----------------------------+-------------+------------+
+| Name                    | Description                | Type        | Default    |
++=========================+============================+=============+============+
+| CONSTANCE_PAYLOAD       | Dictionay with settings.   | Dict        | Empty dict |
++-------------------------+----------------------------+-------------+------------+
+| CONSTANCE_VIEW_BASE_URL | Base url for RESTlike view | str or None | None       |
++-------------------------+----------------------------+-------------+------------+
+
 Flask-Admin integration
 -----------------------
+
+If you use ``Flask-Admin``, then there is an integration for this extension.
+
+.. code:: python
+
+    from flask import Flask
+    from flask_admin import Admin
+    from flask_constance import Constance, settings
+    from flask_constance.admin import ConstanceAdminView
+    from flask_constance.backends.fsqla import FlaskSQLAlchemyBackend, SettingMixin
+
+    app = Flask(__name__)
+    app.config["SECRET_KEY"] = "super-secret"
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///:memory:"
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    app.config["CONSTANCE_PAYLOAD"] = {"foo": "bar", "hello": "world"}
+    db = SQLAlchemy(app)
+
+    class ConstanceSettings(db.Model, SettingMixin):  # type: ignore
+        pass
+
+    constance = Constance(app, FlaskSQLAlchemyBackend(ConstanceSettings, db.session))
+
+    admin = Admin(app, template_mode="bootstrap4")
+    admin.add_view(ConstanceAdminView(name="Settings", endpoint="settings"))

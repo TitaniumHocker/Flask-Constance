@@ -3,8 +3,11 @@ try:
 
     signals = Namespace()
 
+    #: Signal called after extension was initialized.
     constance_setup = signals.signal("constance-setup")
+    #: Signal called after setting value was accessed.
     constance_get = signals.signal("constance-get")
+    #: Signal called after setting value was updated.
     constance_set = signals.signal("constance-set")
 except ImportError:
 

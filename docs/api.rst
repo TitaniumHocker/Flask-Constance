@@ -98,6 +98,36 @@ fiels for your model.
    :undoc-members:
    :show-inheritance:
 
+.. module:: flask_constance.signals
+
+Signals
+-------
+
+.. attribute:: constance_setup
+
+Signal that called after extension was initialized.
+Called with 2 agruments:
+
+- Instance of :class:`~flask_constance.Constance`.
+- Instance of Flask application.
+
+.. attribute:: constance_get
+
+Signal that called after setting value was accessed.
+Called with 2 arguments:
+
+- Instance of :class:`~flask_constance.Constance`.
+- Name of the setting that was accessed.
+
+.. attribute:: constance_set
+
+Signal that called after setting value was updated.
+Called with 3 arguments:
+
+- Instance of :class:`~flask_constance.Constance`.
+- Name of the setting that was updated.
+- New value of the setting.
+
 .. module:: flask_constance.view
 
 RESTlike view
