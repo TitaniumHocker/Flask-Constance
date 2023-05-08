@@ -9,7 +9,7 @@ sphinx:
   builder: html
 
 python:
-  version: 3.10
+  version: 3.8
   install:
     - requirements: docs/req.txt
     - method: pip
