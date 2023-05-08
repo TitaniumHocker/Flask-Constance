@@ -8,6 +8,7 @@ Flask-Constance
 |tests|
 |lint|
 |mypy|
+|docs|
 
 |black|
 
@@ -47,3 +48,5 @@ Documentation of this project is available at `readthedocs <https://flask-consta
 
 .. |license| image:: https://img.shields.io/pypi/l/flask-constance
    :alt: PyPI - License
+
+.. |docs| image:: https://readthedocs.org/projects/flask-constance/badge/?version=latest
