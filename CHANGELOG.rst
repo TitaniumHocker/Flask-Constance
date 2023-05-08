@@ -8,8 +8,8 @@ The format is based on `Keep a Changelog <https://keepachangelog.com/en/1.0.0>`_
 
 .. contents:: Contents
 
-[Unreleased] 0.1.0
-==================
+0.1.0
+=====
 
 First release with main functions of the package.
 
