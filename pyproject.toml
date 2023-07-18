@@ -2,6 +2,7 @@
 name = "Flask-Constance"
 version = "0.1.1"
 description = "Dynamic settings for Flask applications"
+readme = "README.rst"
 authors = ["Ivan Fedorov <inbox@titaniumhocker.ru>"]
 license = "MIT"
 repository = "https://github.com/TitaniumHocker/Flask-Constance"
