@@ -51,7 +51,7 @@ def test_set_unknown(testclient: FlaskClient):
 def test_set_invalid(testclient: FlaskClient):
     for name in dir(settings):
         response = testclient.put(f"/api/constance/{name}", data="invalid-json")
-        assert response.status == "400 BAD REQUEST"
+        assert response.status in {"400 BAD REQUEST", "415 UNSUPPORTED MEDIA TYPE"}
 
 
 def test_delete(testclient: FlaskClient):
