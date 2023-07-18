@@ -1,5 +1,5 @@
 try:
-    from blinker import Namespace  # type: ignore[import]
+    from blinker import Namespace
 
     signals = Namespace()
 
@@ -21,6 +21,6 @@ except ImportError:
         def send(self, *args, **kwargs):
             pass
 
-    constance_setup = MockedSignal("constance-setup")
-    constance_get = MockedSignal("constance-get")
-    constance_set = MockedSignal("constance-set")
+    constance_setup = MockedSignal("constance-setup")  # type: ignore[assignment]
+    constance_get = MockedSignal("constance-get")  # type: ignore[assignment]
+    constance_set = MockedSignal("constance-set")  # type: ignore[assignment]
