@@ -94,3 +94,10 @@ class ConstanceAdminView(BaseView):
                 for k, v in current_app.config["CONSTANCE_PAYLOAD"].items()
             },
         )
+
+    def get_empty_list_message(self) -> str:
+        """Get message if there are no settings.
+
+        :return: Message for empty settings.
+        """
+        return "There are no settings defined."
